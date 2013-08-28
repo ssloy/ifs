@@ -1,0 +1,75 @@
+#Inventor V2.1 ascii
+Separator {
+#	DrawStyle {
+#		pointSize 2
+#		lineWidth 2
+#	}
+  PerspectiveCamera {
+    position 3.3893423 1.5839431 -2.1556742
+    orientation -0.081415743 0.98510641 0.15144858  2.1400774
+    nearDistance 1.0632398
+    farDistance 5.3730416
+    focalDistance 3.0080085
+
+  }
+
+
+	Separator {
+		Translation {
+			translation 2 0 0
+		}
+		Separator {
+			Material { diffuseColor [ 1 0 0, 0 1 0, 0 0 1 ] }
+			MaterialBinding { value PER_PART }
+			Coordinate3 { point [ 0 0 0, 1 0 0, 0 1 0, 0 0 1 ] }
+			IndexedLineSet { coordIndex [ 0 1 -1 0 2 -1 0 3 -1 ] }
+#
+			Separator {
+				BaseColor { rgb 1 0 0 }
+				Translation { translation 1 0 0 }
+				Text2 { string [ "b,f"] }
+			}
+
+			Separator {
+				BaseColor { rgb 0 1 0 }
+				Translation { translation 0 1 0 }
+				Text2 { string [ "a"] }
+			}
+
+			Separator {
+				BaseColor { rgb 1 1 0 }
+				Translation { translation 0 0 1 }
+				Text2 { string [ "c,g"] }
+			}
+		}
+		Scale {
+			scaleFactor .1 .1 .1
+		}
+		Separator {
+			MatrixTransform {
+				matrix .7071  0 .7071  0
+				        0     1  0     0
+				       -.7071 0 .7071  0
+				        0     0  0     1
+			}
+			DragPointDragger {
+#				translation  1.875 5.625 1.875
+				translation  2.65165 5.625 0
+			}
+		}
+
+		MatrixTransform {
+			matrix .7071 0 -.7071  0
+				.7071  0 .7071 0
+				0     -1     0 0
+				0      0     0 1
+		}
+		SoTranslate2Dragger {
+			translation 0 2.357 0
+#			translation 1.6666 1.6666 0
+		}
+	}
+
+
+}
+
