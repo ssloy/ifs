@@ -1,0 +1,14 @@
+z:
+0
+0
+0
+
+
+P:z-SuitCase
+0	1	1	0	1	1	0
+0	0	0	1	1	1	1
+1	1	0	1	1	0	0
+
+
+SuitCase<in/doo-sabin/suitcase.txt>
+

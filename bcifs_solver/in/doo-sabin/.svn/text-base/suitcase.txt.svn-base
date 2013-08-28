@@ -1,0 +1,67 @@
+SuitCase:
+0 0 0 0 0 0 #  0
+1 0 0 0 0 0 #  1
+0 0 0 0 0 0 #  2
+0 0 1 0 0 0 #  3
+0 1 0 1 0 1 #  4
+0 0 0 0 1 0 #  5
+0 0 0 0 0 0 #  6
+
+a<in/doo-sabin/curve6.txt>:
+Patch8<in/doo-sabin/patch8.txt>
+
+Tf0:SuitCase-Patch8
+?
+
+Tf1:SuitCase-Patch8
+?
+
+Tf2:SuitCase-Patch8
+?
+
+Bfa:SuitCase-a
+1 0 0 0 0 0 #  0
+0 1 0 0 0 0 #  1
+0 0 0 0 0 0 #  2
+0 0 1 0 0 0 #  3
+0 0 0 1 0 0 #  4
+0 0 0 0 0 1 #  5
+0 0 0 0 1 0 #  6
+
+Bfb:SuitCase-a
+0 0 0 0 0 0 #  0
+0 0 0 0 0 1 #  1
+0 0 0 0 1 0 #  2
+0 1 0 0 0 0 #  3
+0 0 0 1 0 0 #  4
+0 0 1 0 0 0 #  5
+1 0 0 0 0 0 #  6
+
+Bfc:SuitCase-a
+0 0 0 0 1 0 #  0
+0 0 1 0 0 0 #  1
+1 0 0 0 0 0 #  2
+0 0 0 0 0 1 #  3
+0 0 0 1 0 0 #  4
+0 1 0 0 0 0 #  5
+0 0 0 0 0 0 #  6
+
+ReverseCols:BlahBlah-Blah-Blah
+0 0 0 0 0 1 #  0
+0 0 0 0 1 0 #  1
+0 0 0 1 0 0 #  2
+0 0 1 0 0 0 #  3
+0 1 0 0 0 0 #  4
+1 0 0 0 0 0 #  5
+
+
+
+
+Bfa a.T0 = Tf0 Patch8.Bfa
+Bfa a.T1 = Tf1 Patch8.Bfd ReverseCols
+Bfb a.T0 = Tf1 Patch8.Bfa
+Bfb a.T1 = Tf2 Patch8.Bfd ReverseCols
+Bfc a.T0 = Tf2 Patch8.Bfa
+Bfc a.T1 = Tf0 Patch8.Bfd ReverseCols
+
+

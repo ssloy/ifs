@@ -1,0 +1,110 @@
+Irr:
+1 0 0 0 0 0 0 #  0
+0 0 0 0 0 0 0 #  1
+0 1 0 0 0 0 0 #  2
+0 0 0 0 0 0 0 #  3
+0 0 0 0 0 0 0 #  4
+0 0 1 0 0 0 0 #  5
+0 0 0 0 0 0 1 #  6
+0 0 0 0 0 1 0 #  7
+0 0 0 0 1 0 0 #  8
+0 0 0 1 0 0 0 #  9
+
+Reg<in/doo-sabin/patch9.txt>
+
+a<in/doo-sabin/curve6.txt>:
+b<in/doo-sabin/curve7.txt>:
+c<in/doo-sabin/curve7.txt>:
+d<in/doo-sabin/curve6.txt>:
+
+Bfa:Irr-a
+1 0 0 0 0 0 #  0
+0 1 0 0 0 0 #  1
+0 0 0 0 0 0 #  2
+0 0 1 0 0 0 #  3
+0 0 0 1 0 0 #  4
+0 0 0 0 0 0 #  5
+0 0 0 0 1 0 #  6
+0 0 0 0 0 1 #  7
+0 0 0 0 0 0 #  8
+0 0 0 0 0 0 #  9
+
+Bfb:Irr-b
+0 0 0 0 0 0 0 #  0
+0 0 0 0 0 0 0 #  1
+0 0 0 0 0 0 0 #  2
+0 1 0 0 0 0 0 #  3
+0 0 0 1 0 0 0 #  4
+0 0 0 0 0 0 1 #  5
+1 0 0 0 0 0 0 #  6
+0 0 1 0 0 0 0 #  7
+0 0 0 0 1 0 0 #  8
+0 0 0 0 0 1 0 #  9
+
+
+Bfc:Irr-c
+0 0 0 0 0 0 0 #  0
+1 0 0 0 0 0 0 #  1
+0 1 0 0 0 0 0 #  2
+0 0 0 0 0 0 0 #  3
+0 0 1 0 0 0 0 #  4
+0 0 0 1 0 0 0 #  5
+0 0 0 0 0 0 0 #  6
+0 0 0 0 1 0 0 #  7
+0 0 0 0 0 1 0 #  8
+0 0 0 0 0 0 1 #  9
+
+
+Bfd:Irr-d
+0 1 0 0 0 0 #  0
+0 0 0 1 0 0 #  1
+0 0 0 0 0 1 #  2
+1 0 0 0 0 0 #  3
+0 0 1 0 0 0 #  4
+0 0 0 0 1 0 #  5
+0 0 0 0 0 0 #  6
+0 0 0 0 0 0 #  7
+0 0 0 0 0 0 #  8
+0 0 0 0 0 0 #  9
+
+Tf0:Irr-Reg
+?
+
+Tf1:Irr-Reg
+?
+
+Tf2:Irr-Irr
+?
+
+Tf3:Irr-Reg
+?
+
+##############################################################################
+Reg.a.T0 = a.T0
+Reg.a.T1 = a.T1
+Reg.d.T0 = d.T0
+Reg.d.T1 = d.T1
+
+
+# extern edges
+Bfa a.T0 = Tf0 Reg.Bfa
+Bfa a.T1 = Tf1 Reg.Bfa
+Bfb b.Tr = Tf1 Reg.Bfb
+Bfb b.Ti = Tf2 Bfb
+Bfc c.Ti = Tf2 Bfc
+Bfc c.Tr = Tf3 Reg.Bfc
+Bfd d.T0 = Tf0 Reg.Bfd
+Bfd d.T1 = Tf3 Reg.Bfd
+
+# inner edges
+Tf0 Reg.Bfb = Tf1 Reg.Bfd
+Tf1 Reg.Bfc = Tf2 Bfa
+Tf2 Bfd    = Tf3 Reg.Bfb
+Tf3 Reg.Bfa = Tf0 Reg.Bfc
+
+
+#!!!
+c.Tsi = b.Tsi
+
+
+

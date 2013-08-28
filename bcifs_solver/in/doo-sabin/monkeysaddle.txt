@@ -1,0 +1,123 @@
+MonkeySaddle:
+0 0 0 0 0 0 0 0 0 0 #  0
+1 0 0 0 0 0 0 0 0 0 #  1
+0 0 0 0 0 0 0 0 0 0 #  2
+0 0 1 0 0 0 0 0 0 0 #  3
+0 1 0 1 0 1 0 1 0 1 #  4
+0 0 0 0 1 0 0 0 0 0 #  5
+0 0 0 0 0 0 0 0 0 0 #  6
+0 0 0 0 0 0 1 0 0 0 #  7
+0 0 0 0 0 0 0 0 0 0 #  8
+0 0 0 0 0 0 0 0 1 0 #  9
+0 0 0 0 0 0 0 0 0 0 # 10
+
+a<in/doo-sabin/curve6.txt>:
+Patch10<in/doo-sabin/patch10.txt>
+
+Tf0:MonkeySaddle-Patch10
+?
+
+Tf1:MonkeySaddle-Patch10
+?
+
+Tf2:MonkeySaddle-Patch10
+?
+
+Tf3:MonkeySaddle-Patch10
+?
+
+Tf4:MonkeySaddle-Patch10
+?
+
+Bfa:MonkeySaddle-a
+1 0 0 0 0 0 #  0
+0 1 0 0 0 0 #  1
+0 0 0 0 0 0 #  2
+0 0 1 0 0 0 #  3
+0 0 0 1 0 0 #  4
+0 0 0 0 0 0 #  5
+0 0 0 0 1 0 #  6
+0 0 0 0 0 1 #  7
+0 0 0 0 0 0 #  8
+0 0 0 0 0 0 #  9
+0 0 0 0 0 0 # 10
+
+Bfb:MonkeySaddle-a
+0 0 0 0 0 0 #  0
+0 0 0 0 0 0 #  1
+0 0 0 0 0 0 #  2
+0 1 0 0 0 0 #  3
+0 0 0 1 0 0 #  4
+0 0 0 0 0 0 #  5
+1 0 0 0 0 0 #  6
+0 0 1 0 0 0 #  7
+0 0 0 0 1 0 #  8
+0 0 0 0 0 1 #  9
+0 0 0 0 0 0 # 10
+
+Bfc:MonkeySaddle-a
+0 0 0 0 0 0 #  0
+0 0 0 0 0 0 #  1
+0 0 0 0 0 0 #  2
+0 0 0 0 0 0 #  3
+0 0 0 1 0 0 #  4
+0 0 0 0 0 1 #  5
+0 0 0 0 0 0 #  6
+0 1 0 0 0 0 #  7
+1 0 0 0 0 0 #  8
+0 0 1 0 0 0 #  9
+0 0 0 0 1 0 # 10
+
+Bfd:MonkeySaddle-a
+0 0 0 0 0 0 #  0
+0 0 0 0 0 1 #  1
+0 0 0 0 1 0 #  2
+0 0 0 0 0 0 #  3
+0 0 0 1 0 0 #  4
+0 0 1 0 0 0 #  5
+0 0 0 0 0 0 #  6
+0 0 0 0 0 0 #  7
+0 0 0 0 0 0 #  8
+0 1 0 0 0 0 #  9
+1 0 0 0 0 0 # 10
+
+Bfe:MonkeySaddle-a
+0 0 0 0 1 0 #  0
+0 0 1 0 0 0 #  1
+1 0 0 0 0 0 #  2
+0 0 0 0 0 1 #  3
+0 0 0 1 0 0 #  4
+0 1 0 0 0 0 #  5
+0 0 0 0 0 0 #  6
+0 0 0 0 0 0 #  7
+0 0 0 0 0 0 #  8
+0 0 0 0 0 0 #  9
+0 0 0 0 0 0 # 10
+
+ReverseCols:BlahBlah-Blah-Blah
+0 0 0 0 0 1 #  0
+0 0 0 0 1 0 #  1
+0 0 0 1 0 0 #  2
+0 0 1 0 0 0 #  3
+0 1 0 0 0 0 #  4
+1 0 0 0 0 0 #  5
+
+
+
+Bfa a.T0 = Tf0 Patch10.Bfa
+Bfa a.T1 = Tf1 Patch10.Bfd ReverseCols
+Bfb a.T0 = Tf1 Patch10.Bfa
+Bfb a.T1 = Tf2 Patch10.Bfd ReverseCols
+Bfc a.T0 = Tf2 Patch10.Bfa
+Bfc a.T1 = Tf3 Patch10.Bfd ReverseCols
+Bfd a.T0 = Tf3 Patch10.Bfa
+Bfd a.T1 = Tf4 Patch10.Bfd ReverseCols
+Bfe a.T0 = Tf4 Patch10.Bfa
+Bfe a.T1 = Tf0 Patch10.Bfd ReverseCols
+
+
+Tf0 Patch10.Bfb = Tf1 Patch10.Bfc
+Tf1 Patch10.Bfb = Tf2 Patch10.Bfc
+Tf2 Patch10.Bfb = Tf3 Patch10.Bfc
+Tf3 Patch10.Bfb = Tf4 Patch10.Bfc
+Tf4 Patch10.Bfb = Tf0 Patch10.Bfc

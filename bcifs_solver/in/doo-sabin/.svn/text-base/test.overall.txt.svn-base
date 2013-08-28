@@ -1,0 +1,28 @@
+z:
+0
+0
+0
+
+
+P:z-MonkeySaddle
+#	1	2 	3	4	5	6	7	8	9	10
+0	.5	1	0	.5	1	0	.5	.5	.5	1
+0	0	0	.5	.5	.5	1	1	1	.5	.5
+1	1	1	1	1	1	1	1	.5	.5	.5
+
+P2:z-SuitCase
+#	1	2 	3	4	5	6
+.5	1	1	.5	1	1	.5
+0	0	0	.5	.5	.5	.5
+1	1	.5	1	1	.5	.5
+
+P3:z-Regular
+#	1	2 	3	4	5	6	7	8
+.5	.5	.5	1	1	1	1	1	1
+.5	0	-.5	.5	0	-.5	.5	0	-.5
+1	1	1	1	1	1	.5	.5	.5
+
+MonkeySaddle<in/doo-sabin/monkeysaddle.txt>
+SuitCase<in/doo-sabin/suitcase.txt>
+Regular<in/doo-sabin/patch9.txt>
+
