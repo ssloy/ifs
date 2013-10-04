@@ -10,16 +10,16 @@
 #include "matrix.h"
 #include "parser.h"
 
-#define SIZE_X 1640
-#define SIZE_Y 1640
+#define SIZE_X 640
+#define SIZE_Y 640
 #define STEPS  3
 
 
 
 
-int PRIMITIVES_ARE_CLOSED = 1;
+int PRIMITIVES_ARE_CLOSED = 0;
 int NSTEPS = 0;
-int VRML   = 1;
+int VRML   = 0;
 char cnt='a';
 
 void iterate(automation_t &automation, fmatrix f, std::string state, int depth, std::ofstream &out) {
@@ -42,7 +42,7 @@ void iterate(automation_t &automation, fmatrix f, std::string state, int depth, 
 			if (VRML) {
 				if (primitives.ncols()<2) continue;
 //				out << "Separator { Coordinate3 {\npoint [";
-				out << "Shape { geometry IndexedFaceSet { coord Coordinate {\npoint [";
+				out << "Shape { appearance USE A geometry IndexedFaceSet { solid FALSE coord Coordinate {\npoint [";
 				for (int j=0; j<primitives.ncols(); j++)
 					out << primitives[0][j] << " " << primitives[1][j] << " " << (primitives.nrows()>2 ? primitives[2][j] : 1) << ", ";
 				if (PRIMITIVES_ARE_CLOSED)
@@ -101,7 +101,7 @@ int main(int argc, char **argv) {
 
 	if (VRML) {
 //		out << "#VRML V1.0 ascii\n";
-		out << "#VRML V2.0 utf8\n";
+		out << "#VRML V2.0 utf8\n DEF A Appearance{ material Material { diffuseColor .2 .7 .9 } }\n";
 //		out << "#Inventor V2.1 ascii\nSeparator { DrawStyle {pointSize 4 lineWidth 2 }\n";
 //		out << "PerspectiveCamera { \n";
 //		out << "}\n";
