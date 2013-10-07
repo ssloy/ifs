@@ -18,10 +18,11 @@ int niter = 8;
 int selected =  0; // none:0
 int selectid = -1; // 0: lm   1:alpha
 
-Vec2<float> lm = Vec2<float>(.5, .5);
+float mu = .5;
+float lm = .5;
 float alpha = -1;
 
-const Vec2<float> polygon[] = {Vec2<float>(-.5, -.5), Vec2<float>(0, .5), Vec2<float>(.5, -.5)};
+Vec2<float> polygon[] = {Vec2<float>(-.5, -.5), Vec2<float>(0, .5), Vec2<float>(.5, -.5)};
 vector<Vec2<float> > curve;
 
 Vec2<float> lm_origin = Vec2<float>(-.5, .5);
@@ -40,6 +41,25 @@ Vec2<float> space2screen(Vec2<float> p) {
 	return Vec2<float>((p.x/zoom+1.0)*viewport[2]/2.0+displacement.x, (1.0-p.y/zoom)*viewport[3]/2.0+displacement.y);
 }
 
+Vec2<float> T0(float a, float b, float c, Vec2<float> *pt) {
+	float p[] = {a+b*(1-lm)+c*(1-lm)*alpha/(alpha-1), b*lm+c*(lm*alpha-mu)/(alpha-1), c*(mu-1)/(alpha-1)};
+	return pt[0]*p[0] + pt[1]*p[1] + pt[2]*p[2];
+}
+
+Vec2<float> T0(float *w, Vec2<float> *pt) {
+	return T0(w[0], w[1], w[2], pt);
+}
+
+Vec2<float> T1(float a, float b, float c, Vec2<float> *pt) {
+	float p[] = {a*(1-lm)*alpha/(alpha-1), a*(lm*alpha-mu)/(alpha-1)+mu*b, a*(mu-1)/(alpha-1)+(1-mu)*b+c};
+	return pt[0]*p[0] + pt[1]*p[1] + pt[2]*p[2];
+}
+
+Vec2<float> T1(float *w, Vec2<float> *pt) {
+	return T1(w[0], w[1], w[2], pt);
+}
+
+
 void render2dtext(Vec2<float> p, string text, bool align_center=true) {
 	int blen = glutBitmapLength(GLUT_BITMAP_9_BY_15, (const unsigned char *)text.c_str());
 	glRasterPos2f(p.x-(align_center?blen/2.0*zoom*2.0/viewport[2]:0), p.y);
@@ -54,13 +74,12 @@ void subdivide() {
 	for (int i=0; i<niter; i++) {
 		vector<Vec2<float> > tmp;
 		for (int j=0; j<(int)curve.size(); j+=3) {
-			tmp.push_back(curve[j]);
-			tmp.push_back(curve[j]*(1-lm.x) + curve[j+1]*lm.x);
-			tmp.push_back(curve[j]*(1-lm.x)*alpha/(alpha-1) + curve[j+1]*(lm.x*alpha-lm.y)/(alpha-1) + curve[j+2]*(lm.y-1)/(alpha-1));
-
-			tmp.push_back(curve[j]*(1-lm.x)*alpha/(alpha-1) + curve[j+1]*(lm.x*alpha-lm.y)/(alpha-1) + curve[j+2]*(lm.y-1)/(alpha-1));
-			tmp.push_back(curve[j+1]*lm.y + curve[j+2]*(1-lm.y));
-			tmp.push_back(curve[j+2]);
+			tmp.push_back(T0(1, 0, 0, curve.data()+j));
+			tmp.push_back(T0(0, 1, 0, curve.data()+j));
+			tmp.push_back(T0(0, 0, 1, curve.data()+j));
+			tmp.push_back(T1(1, 0, 0, curve.data()+j));
+			tmp.push_back(T1(0, 1, 0, curve.data()+j));
+			tmp.push_back(T1(0, 0, 1, curve.data()+j));
 		}
 		curve = tmp;
 	}
@@ -107,14 +126,14 @@ void render_scene(void) {
 			glColor3f(.9, .9, .9);
 		}
 		glBegin(GL_POINTS);
-			glVertex2fv(space2screen(lm*lm_unit + lm_origin).raw);
+			glVertex2fv(space2screen(Vec2<float>(lm, mu)*lm_unit + lm_origin).raw);
 		glEnd();
 
 		stringstream ss;
 		ss.setf(std::ios_base::fixed);
 		ss.precision(2);
-		ss << lm;
-		render2dtext(space2screen(lm*lm_unit+lm_origin+Vec2<float>(.02, -.01)), ss.str());
+		ss << "(" << lm << ", " << mu << ")";
+		render2dtext(space2screen(Vec2<float>(lm, mu)*lm_unit+lm_origin+Vec2<float>(.02, -.01)), ss.str());
 	}
 
 	{
@@ -144,23 +163,40 @@ void render_scene(void) {
 	}
 	glEnd();
 
-	glColor3f(.5, .5, .5);
-	float lt[][3] = {{1, -1, 0}, {1, -(alpha*lm.x - lm.y)/(lm.x - 1), ((alpha - 1)*lm.x - lm.y + 1)/(lm.x - 1)}};
-	int li = fabs(lm.x)<fabs((lm.y-1)/(alpha-1));
-	float rt[][3] = {{0, 1, -1}, {1, -(alpha*lm.x - lm.y)/(alpha*lm.x + (alpha - 1)*lm.y - alpha), -(alpha*lm.y - alpha)/(alpha*lm.x + (alpha - 1)*lm.y - alpha)}};
-	int ri = fabs(lm.y)<fabs((1-lm.x)*alpha/(alpha-1));
-	Vec2<float> lp = polygon[0]*lt[li][0] + polygon[1]*lt[li][1] + polygon[2]*lt[li][2];
+	float lt[][3] = {{-1, 1, 0}, {1, -(alpha*lm - mu)/(lm - 1), ((alpha - 1)*lm - mu + 1)/(lm - 1)}};
+	int li = fabs(lm)<fabs((mu-1)/(alpha-1));
+	float rt[][3] = {{0, 1, -1}, {1, -(alpha*lm - mu)/(alpha*lm + (alpha - 1)*mu - alpha), -(alpha*mu - alpha)/(alpha*lm + (alpha - 1)*mu - alpha)}};
+
+	int ri = fabs(mu)<fabs((1-lm)*alpha/(alpha-1));
+	Vec2<float> lp = T0(lt[li], polygon);
 	lp.normalize(.3);
-	Vec2<float> rp = polygon[0]*rt[ri][0] + polygon[1]*rt[ri][1] + polygon[2]*rt[ri][2];
+	Vec2<float> rp = T1(rt[ri], polygon);
 	rp.normalize(.3);
+
+	Vec2<float> cr = T0(rt[ri], polygon);
+	cr.normalize(.3);
+
+	Vec2<float> cl = T1(lt[li], polygon);
+	cl.normalize(.3);
+
+
+	glLineWidth(2.0);
 	glBegin(GL_LINES);
+		glColor3f(.5, .7, .5);
 		glVertex2fv(space2screen(polygon[0]).raw);
-		glVertex2fv(space2screen(polygon[0]-lp).raw);
+		glVertex2fv(space2screen(polygon[0]+lp).raw);
+		glVertex2fv(space2screen(T1(1, 0, 0, polygon)).raw);
+		glVertex2fv(space2screen(cl+T1(1, 0, 0, polygon)).raw);
+
+		glColor3f(.5, .5, .7);
 		glVertex2fv(space2screen(polygon[2]).raw);
 		glVertex2fv(space2screen(polygon[2]+rp).raw);
+		glVertex2fv(space2screen(T0(0, 0, 1, polygon)).raw);
+		glVertex2fv(space2screen(cr+T0(0, 0, 1, polygon)).raw);
 	glEnd();
 
 	glColor3f(.9, .1, .1);
+	glLineWidth(1.0);
 	if (points_not_lines) {
 		glPointSize(1);
 		glBegin(GL_POINTS);
@@ -227,7 +263,9 @@ void process_mouse_motion(int x, int y) {
 	} else {
 		Vec2<float> p = screen2space(Vec2<float>(x, y));
 		if (0==selectid) {
-			lm = (p-lm_origin)/lm_unit;
+			Vec2<float> t = (p-lm_origin)/lm_unit;
+			lm = t.x;
+			mu = t.y;
 		} else if (1==selectid){
 			alpha = (p.x-alpha_origin.x)/alpha_unit;
 		}
@@ -243,7 +281,7 @@ void process_passive_mouse_motion(int x, int y) {
 	const float selection_distance = 5;
 	Vec2<float> p = Vec2<float>(x, y);
 
-	if (Vec2<float>(p-space2screen(lm*lm_unit + lm_origin)).norm()<selection_distance) {
+	if (Vec2<float>(p-space2screen(Vec2<float>(lm, mu)*lm_unit + lm_origin)).norm()<selection_distance) {
 		selected = 1;
 		selectid = 0;
 	} else if (Vec2<float>(p-space2screen(Vec2<float>(alpha*alpha_unit, 0) + alpha_origin)).norm()<selection_distance) {
