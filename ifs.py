@@ -8,8 +8,8 @@ import matplotlib.pyplot as plt
 [l0,l1,l2] = [7, .7, -.4]
 [r0,r1,r2] = [.3, .3, .3]
 
-lmbd = .75
-mu = .5
+lmbd = .5
+mu = .75
 
 
 
@@ -34,12 +34,23 @@ b2 = 1.-b0-b1
 
 #T0=matrix([[a0,b0,c0],[a1,b1,c1],[a2,b2,c2]], dtype=float);
 #[c0, c1, c2] = [random.random(), random.random(), 0]#[(1-lmbd)/2, (mu+lmbd)/2, (1-mu)/2]
-[c0, c1, c2] = [(1-lmbd)/2, (mu+lmbd)/2, (1-mu)/2]
+alpha = -2
+[c0, c1, c2] = [(1-lmbd)*alpha/(alpha-1), (-mu+lmbd*alpha)/(alpha-1), (mu-1)/(alpha-1)]
 c2 = 1 - c0 - c1
 print c0+c1+c2
 T0=matrix([[1.,1-lmbd,c0],[0, lmbd, c1],[0,0,c2]], dtype=float);
+
 #T1=matrix([[d0,e0,f0],[d1,e1,f1],[d2,e2,f2]], dtype=float);
+
 T1=matrix([[c0,0,0],[c1,mu,0],[c2,1-mu,1]], dtype=float);
+
+#a=.15
+#b=.15
+#T0=matrix([[1,a+b,b],[0,1-a-b,1-a-b],[0,0,a]], dtype=float); #bezier
+#T1=matrix([[b,0,0],[1-a-b,1-a-b,0],[a,a+b,1]], dtype=float); #bezier
+
+
+
 P=matrix([[0., .5, 1.],[0.,1.,0.]])
 x=[]
 y=[]
